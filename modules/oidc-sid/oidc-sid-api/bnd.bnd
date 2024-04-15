@@ -1,0 +1,10 @@
+Bundle-Name: oidc-sid-api
+Bundle-SymbolicName: com.liferay.samples.fbo.oidc.sid.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.samples.fbo.oidc.sid.exception,\
+	com.liferay.samples.fbo.oidc.sid.model,\
+	com.liferay.samples.fbo.oidc.sid.service,\
+	com.liferay.samples.fbo.oidc.sid.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../oidc-sid-service/service.xml

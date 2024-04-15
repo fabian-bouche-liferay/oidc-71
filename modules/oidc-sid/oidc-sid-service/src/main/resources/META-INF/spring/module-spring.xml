@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="com.liferay.samples.fbo.oidc.sid.service.impl.OidcSidLocalServiceImpl" id="com.liferay.samples.fbo.oidc.sid.service.OidcSidLocalService" />
+	<bean class="com.liferay.samples.fbo.oidc.sid.service.impl.OidcSidServiceImpl" id="com.liferay.samples.fbo.oidc.sid.service.OidcSidService" />
+	<bean class="com.liferay.samples.fbo.oidc.sid.service.persistence.impl.OidcSidPersistenceImpl" id="com.liferay.samples.fbo.oidc.sid.service.persistence.OidcSidPersistence" parent="basePersistence" />
+</beans>

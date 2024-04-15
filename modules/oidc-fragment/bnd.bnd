@@ -1,0 +1,6 @@
+Bundle-Name: oidc-fragment
+Bundle-SymbolicName: com.liferay.samples.fbo.oidc
+Bundle-Version: 1.0.0
+Fragment-Host: com.liferay.portal.security.sso.openid.connect.impl
+Export-Package:\
+	com.nimbusds.jwt; version="7.9.0"

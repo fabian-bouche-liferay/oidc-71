@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:oidc-sid:oidc-sid-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+}
+
+buildService {
+	apiDir = "../oidc-sid-api/src/main/java"
+}
+
+group = "com.liferay.samples.fbo.oidc.sid"

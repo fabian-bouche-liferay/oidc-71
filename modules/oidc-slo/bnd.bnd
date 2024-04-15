@@ -1,0 +1,11 @@
+Bundle-Name: oidc-slo
+Bundle-SymbolicName: com.liferay.samples.fbo.oidc.slo
+Bundle-Version: 1.0.0
+Import-Package:\
+	!com.google.crypto.tink.*,\
+	!net.shibboleth.utilities.*,\
+	!org.bouncycastle.*,\
+	!org.cryptomator.siv.*,\
+	!org.joda.time.*,\
+	!org.opensaml.*,\
+	*
