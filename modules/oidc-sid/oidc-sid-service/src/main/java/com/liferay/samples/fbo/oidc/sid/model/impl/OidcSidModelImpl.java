@@ -81,6 +81,7 @@ public class OidcSidModelImpl
 		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"sessionId", Types.VARCHAR},
 		{"sid", Types.VARCHAR}, {"jwksUri", Types.VARCHAR},
+		{"issuer", Types.VARCHAR}, {"alg", Types.VARCHAR},
 		{"status", Types.BOOLEAN}
 	};
 
@@ -98,11 +99,13 @@ public class OidcSidModelImpl
 		TABLE_COLUMNS_MAP.put("sessionId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("sid", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("jwksUri", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("issuer", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("alg", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table OIDCSID_OidcSid (uuid_ VARCHAR(75) null,OidcSidId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,sessionId VARCHAR(75) null,sid VARCHAR(75) null,jwksUri VARCHAR(75) null,status BOOLEAN)";
+		"create table OIDCSID_OidcSid (uuid_ VARCHAR(75) null,OidcSidId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,sessionId VARCHAR(75) null,sid VARCHAR(75) null,jwksUri VARCHAR(75) null,issuer VARCHAR(75) null,alg VARCHAR(75) null,status BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP = "drop table OIDCSID_OidcSid";
 
@@ -166,6 +169,8 @@ public class OidcSidModelImpl
 		model.setSessionId(soapModel.getSessionId());
 		model.setSid(soapModel.getSid());
 		model.setJwksUri(soapModel.getJwksUri());
+		model.setIssuer(soapModel.getIssuer());
+		model.setAlg(soapModel.getAlg());
 		model.setStatus(soapModel.isStatus());
 
 		return model;
@@ -521,6 +526,46 @@ public class OidcSidModelImpl
 
 			});
 		attributeGetterFunctions.put(
+			"issuer",
+			new Function<OidcSid, Object>() {
+
+				@Override
+				public Object apply(OidcSid oidcSid) {
+					return oidcSid.getIssuer();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"issuer",
+			new BiConsumer<OidcSid, Object>() {
+
+				@Override
+				public void accept(OidcSid oidcSid, Object issuerObject) {
+					oidcSid.setIssuer((String)issuerObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"alg",
+			new Function<OidcSid, Object>() {
+
+				@Override
+				public Object apply(OidcSid oidcSid) {
+					return oidcSid.getAlg();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"alg",
+			new BiConsumer<OidcSid, Object>() {
+
+				@Override
+				public void accept(OidcSid oidcSid, Object algObject) {
+					oidcSid.setAlg((String)algObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"status",
 			new Function<OidcSid, Object>() {
 
@@ -748,6 +793,38 @@ public class OidcSidModelImpl
 
 	@JSON
 	@Override
+	public String getIssuer() {
+		if (_issuer == null) {
+			return "";
+		}
+		else {
+			return _issuer;
+		}
+	}
+
+	@Override
+	public void setIssuer(String issuer) {
+		_issuer = issuer;
+	}
+
+	@JSON
+	@Override
+	public String getAlg() {
+		if (_alg == null) {
+			return "";
+		}
+		else {
+			return _alg;
+		}
+	}
+
+	@Override
+	public void setAlg(String alg) {
+		_alg = alg;
+	}
+
+	@JSON
+	@Override
 	public boolean getStatus() {
 		return _status;
 	}
@@ -815,6 +892,8 @@ public class OidcSidModelImpl
 		oidcSidImpl.setSessionId(getSessionId());
 		oidcSidImpl.setSid(getSid());
 		oidcSidImpl.setJwksUri(getJwksUri());
+		oidcSidImpl.setIssuer(getIssuer());
+		oidcSidImpl.setAlg(getAlg());
 		oidcSidImpl.setStatus(isStatus());
 
 		oidcSidImpl.resetOriginalValues();
@@ -958,6 +1037,22 @@ public class OidcSidModelImpl
 			oidcSidCacheModel.jwksUri = null;
 		}
 
+		oidcSidCacheModel.issuer = getIssuer();
+
+		String issuer = oidcSidCacheModel.issuer;
+
+		if ((issuer != null) && (issuer.length() == 0)) {
+			oidcSidCacheModel.issuer = null;
+		}
+
+		oidcSidCacheModel.alg = getAlg();
+
+		String alg = oidcSidCacheModel.alg;
+
+		if ((alg != null) && (alg.length() == 0)) {
+			oidcSidCacheModel.alg = null;
+		}
+
 		oidcSidCacheModel.status = isStatus();
 
 		return oidcSidCacheModel;
@@ -1066,6 +1161,8 @@ public class OidcSidModelImpl
 	private String _sid;
 	private String _originalSid;
 	private String _jwksUri;
+	private String _issuer;
+	private String _alg;
 	private boolean _status;
 	private long _columnBitmask;
 	private OidcSid _escapedModel;

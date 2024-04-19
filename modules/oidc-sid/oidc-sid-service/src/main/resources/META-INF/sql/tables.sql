@@ -9,5 +9,7 @@ create table OIDCSID_OidcSid (
 	sessionId VARCHAR(75) null,
 	sid VARCHAR(75) null,
 	jwksUri VARCHAR(75) null,
+	issuer VARCHAR(75) null,
+	alg VARCHAR(75) null,
 	status BOOLEAN
 );

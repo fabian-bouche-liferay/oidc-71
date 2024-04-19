@@ -7,6 +7,8 @@ import com.liferay.portal.kernel.events.LifecycleEvent;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.security.sso.openid.connect.OpenIdConnectProviderRegistry;
+import com.liferay.portal.security.sso.openid.connect.OpenIdConnectServiceException.ProviderException;
 import com.liferay.portal.security.sso.openid.connect.OpenIdConnectSession;
 import com.liferay.portal.security.sso.openid.connect.provider.OpenIdConnectSessionProvider;
 import com.liferay.samples.fbo.oidc.sid.model.OidcSid;
@@ -14,6 +16,7 @@ import com.liferay.samples.fbo.oidc.sid.service.OidcSidLocalService;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
+import com.nimbusds.openid.connect.sdk.op.OIDCProviderMetadata;
 
 import java.text.ParseException;
 
@@ -45,6 +48,16 @@ public class OIDCSessionIDPostLoginAction implements LifecycleAction {
 		
 		if(openIdConnectSession != null) {
 
+			OIDCProviderMetadata oidcProviderMetadata;
+			String jwksUri;
+			try {
+				oidcProviderMetadata = (OIDCProviderMetadata) _openIdConnectProviderRegistry.getOpenIdConnectProvider(openIdConnectSession.getOpenIdProviderName()).getOIDCProviderMetadata();
+				jwksUri = oidcProviderMetadata.getJWKSetURI().toString();		
+			} catch (ProviderException e) {
+				_log.error("Failed to find OIDC Provider", e);
+				throw new ActionException(e);
+			}
+			
 			String accessToken = openIdConnectSession.getAccessTokenValue();
 			
 			try {
@@ -52,6 +65,7 @@ public class OIDCSessionIDPostLoginAction implements LifecycleAction {
 				JWT jwt = JWTParser.parse(accessToken);
 				JWTClaimsSet claimsSet = jwt.getJWTClaimsSet();
 				String sid = (String) claimsSet.getClaim("sid");
+				String issuer = (String) claimsSet.getClaim("iss");
 				
 				String sessionId = httpSession.getId();
 				
@@ -61,7 +75,8 @@ public class OIDCSessionIDPostLoginAction implements LifecycleAction {
 				oidcSid.setSessionId(sessionId);
 				oidcSid.setSid(sid);
 				oidcSid.setStatus(true);
-				oidcSid.setJwksUri("");
+				oidcSid.setJwksUri(jwksUri);
+				oidcSid.setIssuer(issuer);
 				_oidcSidLocalService.addOidcSid(oidcSid);
 
 			} catch (ParseException parseException) {
@@ -84,5 +99,8 @@ public class OIDCSessionIDPostLoginAction implements LifecycleAction {
 	
 	@Reference
 	private CounterLocalService _counterLocalService;
+	
+	@Reference
+	private OpenIdConnectProviderRegistry _openIdConnectProviderRegistry;
 	
 }

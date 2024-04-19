@@ -3,4 +3,10 @@ Bundle-SymbolicName: com.liferay.samples.fbo.oidc
 Bundle-Version: 1.0.0
 Fragment-Host: com.liferay.portal.security.sso.openid.connect.impl
 Export-Package:\
-	com.nimbusds.jwt; version="7.9.0"
+	com.nimbusds.jwt; version="7.9.0",\
+	com.nimbusds.jose; version="7.9.0",\
+	com.nimbusds.jose.proc; version="7.9.0",\
+	com.nimbusds.oauth2.sdk.id; version="6.16.0",\
+	com.nimbusds.openid.connect.sdk.claims; version="6.16.0",\
+	com.nimbusds.openid.connect.sdk.op; version="6.16.0",\
+	com.nimbusds.openid.connect.sdk.validators; version="6.16.0"

@@ -12,6 +12,8 @@
 		<field name="sessionId" type="String" />
 		<field name="sid" type="String" />
 		<field name="jwksUri" type="String" />
+		<field name="issuer" type="String" />
+		<field name="alg" type="String" />
 		<field name="status" type="boolean" />
 	</model>
 </model-hints>

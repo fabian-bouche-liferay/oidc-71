@@ -5,7 +5,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.security.sso.openid.connect.OpenIdConnectSession;
 import com.liferay.portal.security.sso.openid.connect.provider.OpenIdConnectSessionProvider;
 import com.liferay.samples.fbo.oidc.sid.model.OidcSid;
 import com.liferay.samples.fbo.oidc.sid.service.OidcSidLocalService;
@@ -74,6 +73,25 @@ public class BackchannelLogoutServlet extends HttpServlet {
 					String externalSessionId = (String) logoutToken.getJWTClaimsSet().getClaim("sid");
 
 					OidcSid oidcSid = _oidcSidLocalService.getBySid(externalSessionId);
+					
+					String jwksUriString = oidcSid.getJwksUri();
+					Issuer expectedIssuer = new Issuer(oidcSid.getIssuer());
+
+					JWSAlgorithm expectedJWSAlg = JWSAlgorithm.RS256;
+					
+					if(jwksUriString != null) {
+						URL jwkSetURI = new URL(jwksUriString);
+						ClientID clientID = new ClientID(clientIdList.get(0));
+						LogoutTokenValidator validator = new LogoutTokenValidator(expectedIssuer, clientID, expectedJWSAlg, jwkSetURI);
+						
+						try {
+							validator.validate(logoutToken);
+						} catch (BadJOSEException | JOSEException e) {
+							_log.error("Failed to validate Logout Token", e);
+							return;
+						}
+					}
+					
 					oidcSid.setStatus(false);
 					_oidcSidLocalService.updateOidcSid(oidcSid);
 					

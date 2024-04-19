@@ -22,6 +22,8 @@
 		<column name="sessionId" type="String" />
 		<column name="sid" type="String" />
 		<column name="jwksUri" type="String" />
+		<column name="issuer" type="String" />
+		<column name="alg" type="String" />
 		<column name="status" type="boolean" />
 
 		<!-- Finder methods -->

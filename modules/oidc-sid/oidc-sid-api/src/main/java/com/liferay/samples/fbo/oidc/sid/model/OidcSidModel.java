@@ -237,6 +237,36 @@ public interface OidcSidModel
 	public void setJwksUri(String jwksUri);
 
 	/**
+	 * Returns the issuer of this oidc sid.
+	 *
+	 * @return the issuer of this oidc sid
+	 */
+	@AutoEscape
+	public String getIssuer();
+
+	/**
+	 * Sets the issuer of this oidc sid.
+	 *
+	 * @param issuer the issuer of this oidc sid
+	 */
+	public void setIssuer(String issuer);
+
+	/**
+	 * Returns the alg of this oidc sid.
+	 *
+	 * @return the alg of this oidc sid
+	 */
+	@AutoEscape
+	public String getAlg();
+
+	/**
+	 * Sets the alg of this oidc sid.
+	 *
+	 * @param alg the alg of this oidc sid
+	 */
+	public void setAlg(String alg);
+
+	/**
 	 * Returns the status of this oidc sid.
 	 *
 	 * @return the status of this oidc sid

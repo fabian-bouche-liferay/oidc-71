@@ -41,6 +41,8 @@ public class OidcSidSoap implements Serializable {
 		soapModel.setSessionId(model.getSessionId());
 		soapModel.setSid(model.getSid());
 		soapModel.setJwksUri(model.getJwksUri());
+		soapModel.setIssuer(model.getIssuer());
+		soapModel.setAlg(model.getAlg());
 		soapModel.setStatus(model.isStatus());
 
 		return soapModel;
@@ -175,6 +177,22 @@ public class OidcSidSoap implements Serializable {
 		_jwksUri = jwksUri;
 	}
 
+	public String getIssuer() {
+		return _issuer;
+	}
+
+	public void setIssuer(String issuer) {
+		_issuer = issuer;
+	}
+
+	public String getAlg() {
+		return _alg;
+	}
+
+	public void setAlg(String alg) {
+		_alg = alg;
+	}
+
 	public boolean getStatus() {
 		return _status;
 	}
@@ -197,6 +215,8 @@ public class OidcSidSoap implements Serializable {
 	private String _sessionId;
 	private String _sid;
 	private String _jwksUri;
+	private String _issuer;
+	private String _alg;
 	private boolean _status;
 
 }

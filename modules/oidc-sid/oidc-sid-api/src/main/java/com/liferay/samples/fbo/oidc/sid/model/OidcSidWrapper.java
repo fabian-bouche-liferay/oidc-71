@@ -65,6 +65,8 @@ public class OidcSidWrapper implements ModelWrapper<OidcSid>, OidcSid {
 		attributes.put("sessionId", getSessionId());
 		attributes.put("sid", getSid());
 		attributes.put("jwksUri", getJwksUri());
+		attributes.put("issuer", getIssuer());
+		attributes.put("alg", getAlg());
 		attributes.put("status", isStatus());
 
 		return attributes;
@@ -132,6 +134,18 @@ public class OidcSidWrapper implements ModelWrapper<OidcSid>, OidcSid {
 			setJwksUri(jwksUri);
 		}
 
+		String issuer = (String)attributes.get("issuer");
+
+		if (issuer != null) {
+			setIssuer(issuer);
+		}
+
+		String alg = (String)attributes.get("alg");
+
+		if (alg != null) {
+			setAlg(alg);
+		}
+
 		Boolean status = (Boolean)attributes.get("status");
 
 		if (status != null) {
@@ -147,6 +161,16 @@ public class OidcSidWrapper implements ModelWrapper<OidcSid>, OidcSid {
 	@Override
 	public int compareTo(OidcSid oidcSid) {
 		return _oidcSid.compareTo(oidcSid);
+	}
+
+	/**
+	 * Returns the alg of this oidc sid.
+	 *
+	 * @return the alg of this oidc sid
+	 */
+	@Override
+	public String getAlg() {
+		return _oidcSid.getAlg();
 	}
 
 	/**
@@ -172,6 +196,16 @@ public class OidcSidWrapper implements ModelWrapper<OidcSid>, OidcSid {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _oidcSid.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the issuer of this oidc sid.
+	 *
+	 * @return the issuer of this oidc sid
+	 */
+	@Override
+	public String getIssuer() {
+		return _oidcSid.getIssuer();
 	}
 
 	/**
@@ -324,6 +358,16 @@ public class OidcSidWrapper implements ModelWrapper<OidcSid>, OidcSid {
 		_oidcSid.persist();
 	}
 
+	/**
+	 * Sets the alg of this oidc sid.
+	 *
+	 * @param alg the alg of this oidc sid
+	 */
+	@Override
+	public void setAlg(String alg) {
+		_oidcSid.setAlg(alg);
+	}
+
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_oidcSid.setCachedModel(cachedModel);
@@ -364,6 +408,16 @@ public class OidcSidWrapper implements ModelWrapper<OidcSid>, OidcSid {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_oidcSid.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	 * Sets the issuer of this oidc sid.
+	 *
+	 * @param issuer the issuer of this oidc sid
+	 */
+	@Override
+	public void setIssuer(String issuer) {
+		_oidcSid.setIssuer(issuer);
 	}
 
 	/**

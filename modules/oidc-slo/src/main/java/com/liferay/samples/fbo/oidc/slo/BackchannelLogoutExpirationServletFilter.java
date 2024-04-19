@@ -24,7 +24,7 @@ import org.osgi.service.component.annotations.Reference;
 		property = {
 			"before-filter=Auto Login Filter", "servlet-context-name=",
 			"servlet-filter-name=SSO OpenId Connect Backchannel Logout Expiration Filter",
-			"url-pattern=/*" 
+			"url-pattern=*" 
 		},
 		service = Filter.class
 	)
@@ -52,9 +52,10 @@ public class BackchannelLogoutExpirationServletFilter extends BaseFilter {
 					_oidcSidLocalService.deleteOidcSid(sid);
 					response.sendRedirect(
 							_portal.getHomeURL(request));
+					return;
 				}
 			} catch (NoSuchOidcSidException e) {
-				_log.error("OIDC Session not found", e);
+				_log.debug("OIDC Session not found", e);
 			}
 
 		}

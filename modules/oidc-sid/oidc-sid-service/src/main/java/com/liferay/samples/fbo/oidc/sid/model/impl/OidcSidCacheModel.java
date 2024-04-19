@@ -60,7 +60,7 @@ public class OidcSidCacheModel implements CacheModel<OidcSid>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -82,6 +82,10 @@ public class OidcSidCacheModel implements CacheModel<OidcSid>, Externalizable {
 		sb.append(sid);
 		sb.append(", jwksUri=");
 		sb.append(jwksUri);
+		sb.append(", issuer=");
+		sb.append(issuer);
+		sb.append(", alg=");
+		sb.append(alg);
 		sb.append(", status=");
 		sb.append(status);
 		sb.append("}");
@@ -146,6 +150,20 @@ public class OidcSidCacheModel implements CacheModel<OidcSid>, Externalizable {
 			oidcSidImpl.setJwksUri(jwksUri);
 		}
 
+		if (issuer == null) {
+			oidcSidImpl.setIssuer("");
+		}
+		else {
+			oidcSidImpl.setIssuer(issuer);
+		}
+
+		if (alg == null) {
+			oidcSidImpl.setAlg("");
+		}
+		else {
+			oidcSidImpl.setAlg(alg);
+		}
+
 		oidcSidImpl.setStatus(status);
 
 		oidcSidImpl.resetOriginalValues();
@@ -168,6 +186,8 @@ public class OidcSidCacheModel implements CacheModel<OidcSid>, Externalizable {
 		sessionId = objectInput.readUTF();
 		sid = objectInput.readUTF();
 		jwksUri = objectInput.readUTF();
+		issuer = objectInput.readUTF();
+		alg = objectInput.readUTF();
 
 		status = objectInput.readBoolean();
 	}
@@ -218,6 +238,20 @@ public class OidcSidCacheModel implements CacheModel<OidcSid>, Externalizable {
 			objectOutput.writeUTF(jwksUri);
 		}
 
+		if (issuer == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(issuer);
+		}
+
+		if (alg == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(alg);
+		}
+
 		objectOutput.writeBoolean(status);
 	}
 
@@ -231,6 +265,8 @@ public class OidcSidCacheModel implements CacheModel<OidcSid>, Externalizable {
 	public String sessionId;
 	public String sid;
 	public String jwksUri;
+	public String issuer;
+	public String alg;
 	public boolean status;
 
 }
