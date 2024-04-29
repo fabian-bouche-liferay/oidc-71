@@ -9,3 +9,4 @@ Import-Package:\
 	!org.joda.time.*,\
 	!org.opensaml.*,\
 	*
+Web-ContextPath: /custom-oidc

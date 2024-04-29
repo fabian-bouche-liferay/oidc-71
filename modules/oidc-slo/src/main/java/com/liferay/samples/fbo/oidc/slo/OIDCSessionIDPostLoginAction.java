@@ -18,9 +18,12 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
 import com.nimbusds.openid.connect.sdk.op.OIDCProviderMetadata;
 
+import java.net.URLEncoder;
 import java.text.ParseException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.osgi.service.component.annotations.Component;
@@ -37,6 +40,7 @@ public class OIDCSessionIDPostLoginAction implements LifecycleAction {
 	public void processLifecycleEvent(LifecycleEvent lifecycleEvent) throws ActionException {
 		
 		HttpServletRequest httpServletRequest = lifecycleEvent.getRequest();
+		HttpServletResponse httpServletResponse = lifecycleEvent.getResponse();
 		HttpSession httpSession = httpServletRequest.getSession();
 		
 		OpenIdConnectSession openIdConnectSession =
@@ -47,6 +51,10 @@ public class OIDCSessionIDPostLoginAction implements LifecycleAction {
 		long companyId = _portal.getCompanyId(httpServletRequest);
 		
 		if(openIdConnectSession != null) {
+			
+			Cookie oidcProviderCookie = new Cookie(OIDCConstants.OIDC_PROVIDER, URLEncoder.encode(openIdConnectSession.getOpenIdProviderName()));
+			oidcProviderCookie.setPath("/");
+			httpServletResponse.addCookie(oidcProviderCookie);
 
 			OIDCProviderMetadata oidcProviderMetadata;
 			String jwksUri;
